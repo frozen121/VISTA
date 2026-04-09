@@ -24,39 +24,19 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
-      - name: Setup iOS certificates and provisioning profile
-        env:
-          IOS_CERTIFICATE: ${{ secrets.IOS_CERTIFICATE }}
-          IOS_CERTIFICATE_PASSWORD: ${{ secrets.IOS_CERTIFICATE_PASSWORD }}
-          IOS_PROVISIONING_PROFILE: ${{ secrets.IOS_PROVISIONING_PROFILE }}
+      - name: Build iOS (no codesign)
+        run: flutter build ios --release --no-codesign
+
+      - name: Package IPA
         run: |
-          # Provisioning profile
-          mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
-          echo "$IOS_PROVISIONING_PROFILE" | base64 --decode > ~/Library/MobileDevice/Provisioning\ Profiles/profile.mobileprovision
-
-          # Certificate
-          CERT_FILE=$(mktemp /tmp/cert.XXXXXX.p12)
-          echo "$IOS_CERTIFICATE" | base64 --decode > "$CERT_FILE"
-
-          security create-keychain -p "temppass" build.keychain
-          security default-keychain -s build.keychain
-          security unlock-keychain -p "temppass" build.keychain
-          security import "$CERT_FILE" -k build.keychain -P "$IOS_CERTIFICATE_PASSWORD" -A
-          security set-key-partition-list -S apple-tool:,apple: -k "temppass" build.keychain
-          security set-keychain-settings -lut 21600 build.keychain
-
-          rm -f "$CERT_FILE"
-
-      - name: Inject Team ID into exportOptions.plist
-        run: |
-          sed -i '' "s/\$(IOS_TEAM_ID)/${{ secrets.IOS_TEAM_ID }}/g" ios/exportOptions.plist
-
-      - name: Build IPA
-        run: flutter build ipa --export-options-plist=ios/exportOptions.plist
+          mkdir -p build/ios/ipa/Payload
+          cp -r build/ios/iphoneos/Runner.app build/ios/ipa/Payload/
+          cd build/ios/ipa
+          zip -r VISTA.ipa Payload
 
       - name: Upload IPA
         uses: actions/upload-artifact@v4
         with:
           name: ios-ipa
-          path: build/ios/ipa/*.ipa
+          path: build/ios/ipa/VISTA.ipa
           retention-days: 7
