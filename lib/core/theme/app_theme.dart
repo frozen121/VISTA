@@ -15,7 +15,7 @@ class AppTheme {
         secondary: AppColors.accent,
       ),
       scaffoldBackgroundColor: AppColors.background,
-      fontFamily: 'SF Pro Display',
+      fontFamily: null,
       appBarTheme: const AppBarTheme(
         backgroundColor: AppColors.background,
         elevation: 0,
@@ -157,7 +157,7 @@ class AppTheme {
         secondary: AppColors.accentLight,
       ),
       scaffoldBackgroundColor: AppColors.backgroundDark,
-      fontFamily: 'SF Pro Display',
+      fontFamily: null,
       appBarTheme: const AppBarTheme(
         backgroundColor: AppColors.backgroundDark,
         elevation: 0,
