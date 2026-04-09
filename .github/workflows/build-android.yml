@@ -1,0 +1,37 @@
+name: Build Android APK
+
+on:
+  push:
+    branches:
+      - main  # Или ваша основная ветка
+
+jobs:
+  build:
+    runs-on: ubuntu-latest  # Android сборка на Linux
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.19.0'  # Укажите версию Flutter
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Build APK
+        run: flutter build apk --release  # Или --debug для отладки
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-apk
+          path: build/app/outputs/flutter-apk/app-release.apk  # Путь к собранному APK

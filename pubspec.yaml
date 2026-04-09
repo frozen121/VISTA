@@ -1,0 +1,54 @@
+name: hotel_vista
+description: Отель Vista - Премиум приложение для бронирования отелей с поддержкой оффлайн режима
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.11.4
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # Local database (no code generation required)
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
+
+  # State management
+  provider: ^6.1.2
+
+  # Navigation
+  go_router: ^14.0.2
+
+  # Utilities
+  crypto: ^3.0.3
+  intl: 0.20.2
+  path_provider: ^2.1.4
+
+  # Image
+  image_picker: ^1.1.2
+
+  # UI
+  shimmer: ^3.0.0
+  cupertino_icons: ^1.0.8
+  table_calendar: ^3.0.9
+
+  flutter_localizations:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+  flutter_launcher_icons: ^0.13.1
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/icon/app.png"
+  min_sdk_android: 21
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/images/
