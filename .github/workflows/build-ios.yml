@@ -23,19 +23,18 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
-      - name: Build iOS (no codesign)
-        run: flutter build ios --release --no-codesign
+      - name: Build iOS Simulator
+        run: flutter build ios --simulator --debug
 
-      - name: Package IPA
+      - name: Package app for Appetize
         run: |
-          mkdir -p build/ios/ipa/Payload
-          cp -r build/ios/iphoneos/Runner.app build/ios/ipa/Payload/
-          cd build/ios/ipa
-          zip -r VISTA.ipa Payload
+          mkdir -p build/ios/simulator_zip
+          cd build/ios/iphonesimulator
+          zip -r ../simulator_zip/VISTA.zip Runner.app
 
-      - name: Upload IPA
+      - name: Upload Simulator App
         uses: actions/upload-artifact@v4
         with:
-          name: ios-ipa
-          path: build/ios/ipa/VISTA.ipa
+          name: ios-simulator-app
+          path: build/ios/simulator_zip/VISTA.zip
           retention-days: 7
