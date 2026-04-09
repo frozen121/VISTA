@@ -86,7 +86,7 @@ class _AppRootState extends State<_AppRoot> {
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
-      themeMode: ThemeMode.light,
+      themeMode: ThemeMode.dark,
       routerConfig: _router,
       localizationsDelegates: const [
         GlobalMaterialLocalizations.delegate,
